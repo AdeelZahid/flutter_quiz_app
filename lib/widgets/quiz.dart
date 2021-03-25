@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:quizzler/model/question.dart';
+import 'package:quizzler/quiz_brain.dart';
 
 class QuizPage extends StatefulWidget {
   QuizPage({Key key}) : super(key: key);
@@ -8,6 +10,11 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  List<Icon> scoreKeeper = [];
+
+  int questionNumber = 0;
+  QuizBrain quizBrain = QuizBrain();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,7 +27,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: const EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'This is wehre the question text will go',
+                quizBrain.getQuestionText(questionNumber),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 25.0,
@@ -36,7 +43,6 @@ class _QuizPageState extends State<QuizPage> {
             child: Container(
               width: double.infinity,
               child: MaterialButton(
-                onPressed: () {},
                 child: Text(
                   'True',
                   style: TextStyle(
@@ -45,6 +51,22 @@ class _QuizPageState extends State<QuizPage> {
                   ),
                 ),
                 color: Colors.green,
+                onPressed: () {
+                  bool correctAnswer = quizBrain.checkAnswer(questionNumber);
+
+                  if (correctAnswer == true) {
+                    print('Correct Anser');
+                  } else {
+                    print('Wrong Anser');
+                  }
+                  setState(() {
+                    questionNumber++;
+                    scoreKeeper.add(Icon(
+                      Icons.check,
+                      color: Colors.green,
+                    ));
+                  });
+                },
               ),
             ),
           ),
@@ -55,7 +77,15 @@ class _QuizPageState extends State<QuizPage> {
             child: Container(
               width: double.infinity,
               child: MaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    questionNumber++;
+                    scoreKeeper.add(Icon(
+                      Icons.close,
+                      color: Colors.red,
+                    ));
+                  });
+                },
                 child: Text(
                   'False',
                   style: TextStyle(
@@ -68,6 +98,10 @@ class _QuizPageState extends State<QuizPage> {
             ),
           ),
         ),
+        //Todo : Add a row here as your score keeper
+        Row(
+          children: scoreKeeper,
+        )
       ],
     );
   }
