@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quizzler/quiz_brain.dart';
+import 'package:quizzler/widgets/buttons.dart';
+import 'package:quizzler/providers/quiz_brain.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class QuizPage extends StatefulWidget {
@@ -58,45 +59,19 @@ class _QuizPageState extends State<QuizPage> {
             ),
           ),
         ),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.all(15.0),
-            child: Container(
-              width: double.infinity,
-              child: MaterialButton(
-                child: Text(
-                  'True',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                  ),
-                ),
-                color: Colors.green,
-                onPressed: () => checkAnswer(true),
-              ),
-            ),
-          ),
+
+        Buttons(
+          buttonColor: Colors.green,
+          buttonText: 'True',
+          onClick: () => checkAnswer(true),
         ),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.all(15.0),
-            child: Container(
-              width: double.infinity,
-              child: MaterialButton(
-                onPressed: () => checkAnswer(false),
-                child: Text(
-                  'False',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                  ),
-                ),
-                color: Colors.red,
-              ),
-            ),
-          ),
+        Buttons(
+          buttonColor: Colors.red,
+          buttonText: 'False',
+          onClick: () => checkAnswer(false),
         ),
         //Todo : Add a row here as your score keeper
+
         Row(
           children: scoreKeeper,
         )
