@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quizzler/model/question.dart';
+// import 'package:quizzler/model/question.dart';
 import 'package:quizzler/quiz_brain.dart';
 
 class QuizPage extends StatefulWidget {
@@ -12,7 +12,21 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
 
-  int questionNumber = 0;
+  void checkAnswer(bool userPickedAnswer) {
+    bool correctAnswer = quizBrain.checkAnswer();
+
+    if (correctAnswer == userPickedAnswer) {
+      print('Correct Anser');
+      scoreKeeper.add(Icon(Icons.check, color: Colors.green));
+    } else {
+      print('Wrong Anser');
+      scoreKeeper.add(Icon(Icons.close, color: Colors.red));
+    }
+    setState(() {
+      quizBrain.nextQuestion();
+    });
+  }
+
   QuizBrain quizBrain = QuizBrain();
 
   @override
@@ -27,7 +41,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: const EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                quizBrain.getQuestionText(questionNumber),
+                quizBrain.getQuestionText(),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 25.0,
@@ -51,22 +65,7 @@ class _QuizPageState extends State<QuizPage> {
                   ),
                 ),
                 color: Colors.green,
-                onPressed: () {
-                  bool correctAnswer = quizBrain.checkAnswer(questionNumber);
-
-                  if (correctAnswer == true) {
-                    print('Correct Anser');
-                  } else {
-                    print('Wrong Anser');
-                  }
-                  setState(() {
-                    questionNumber++;
-                    scoreKeeper.add(Icon(
-                      Icons.check,
-                      color: Colors.green,
-                    ));
-                  });
-                },
+                onPressed: () => checkAnswer(true),
               ),
             ),
           ),
@@ -77,15 +76,7 @@ class _QuizPageState extends State<QuizPage> {
             child: Container(
               width: double.infinity,
               child: MaterialButton(
-                onPressed: () {
-                  setState(() {
-                    questionNumber++;
-                    scoreKeeper.add(Icon(
-                      Icons.close,
-                      color: Colors.red,
-                    ));
-                  });
-                },
+                onPressed: () => checkAnswer(false),
                 child: Text(
                   'False',
                   style: TextStyle(
