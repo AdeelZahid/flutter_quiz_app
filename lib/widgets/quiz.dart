@@ -26,10 +26,8 @@ class _QuizPageState extends State<QuizPage> {
         quizBrain.reset();
         scoreKeeper = [];
       } else if (correctAnswer == userSelectAnswer) {
-        // print('Correct Anser');
         scoreKeeper.add(Icon(Icons.check, color: Colors.green));
       } else {
-        // print('Wrong Anser');
         scoreKeeper.add(Icon(Icons.close, color: Colors.red));
       }
       quizBrain.nextQuestion();

@@ -2,8 +2,11 @@ class Question {
   String questionText;
   bool questionAnswer;
 
-  Question(String q, bool a) {
-    questionText = q;
-    questionAnswer = a;
-  }
+  //Question Class Constructor
+  Question(this.questionText, this.questionAnswer);
+
+  // Question(String q, bool a) {
+  //   questionText = q;
+  //   questionAnswer = a;
+  // }
 }
