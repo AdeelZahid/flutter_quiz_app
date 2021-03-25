@@ -2,6 +2,7 @@ import 'package:quizzler/model/question.dart';
 
 class QuizBrain {
   int _questionNumber = 0;
+  int _score = 0;
   List<Question> _questionBank = [
     Question('Some cats are actually allergic to humans', true),
     Question('You can lead a cow down stairs but not up stairs.', false),
@@ -28,19 +29,39 @@ class QuizBrain {
     Question(
         'In West Virginia, USA, if you accidentally hit an animal with your car, you are free to take it home to eat.',
         true),
+    Question('2 + 2 = 4', true),
   ];
 
   String getQuestionText() {
     return _questionBank[_questionNumber].questionText;
   }
 
-  bool checkAnswer() {
-    return _questionBank[_questionNumber].questionAnswer;
+  bool checkAnswer(userPickedAnswer) {
+    bool ans = _questionBank[_questionNumber].questionAnswer;
+    print(userPickedAnswer);
+    if (ans == userPickedAnswer) {
+      _score++;
+      print("Score: $_score Question: $_questionNumber");
+    }
+    return ans;
   }
 
   void nextQuestion() {
     if (_questionNumber < _questionBank.length - 1) {
       _questionNumber++;
     }
+  }
+
+  bool isFinished() {
+    return _questionNumber >= _questionBank.length - 1 ? true : false;
+  }
+
+  void reset() {
+    _questionNumber = -1;
+    _score = 0;
+  }
+
+  int totalScore() {
+    return _score;
   }
 }

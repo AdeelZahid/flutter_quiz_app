@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-// import 'package:quizzler/model/question.dart';
 import 'package:quizzler/quiz_brain.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class QuizPage extends StatefulWidget {
   QuizPage({Key key}) : super(key: key);
@@ -12,17 +12,26 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
 
-  void checkAnswer(bool userPickedAnswer) {
-    bool correctAnswer = quizBrain.checkAnswer();
+  void checkAnswer(bool userSelectAnswer) {
+    bool correctAnswer = quizBrain.checkAnswer(userSelectAnswer);
 
-    if (correctAnswer == userPickedAnswer) {
-      print('Correct Anser');
-      scoreKeeper.add(Icon(Icons.check, color: Colors.green));
-    } else {
-      print('Wrong Anser');
-      scoreKeeper.add(Icon(Icons.close, color: Colors.red));
-    }
     setState(() {
+      if (quizBrain.isFinished() == true) {
+        Alert(
+          context: context,
+          title: 'Finished!',
+          desc:
+              'You\'ve reached the end of the quiz .. \n Score ${quizBrain.totalScore()}',
+        ).show();
+        quizBrain.reset();
+        scoreKeeper = [];
+      } else if (correctAnswer == userSelectAnswer) {
+        // print('Correct Anser');
+        scoreKeeper.add(Icon(Icons.check, color: Colors.green));
+      } else {
+        // print('Wrong Anser');
+        scoreKeeper.add(Icon(Icons.close, color: Colors.red));
+      }
       quizBrain.nextQuestion();
     });
   }
